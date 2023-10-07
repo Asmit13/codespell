@@ -1,0 +1,32 @@
+---
+version: "3.9"
+
+services:
+  web:
+    image: nginx:latest
+    ports:
+      - "80:80"
+    volumes:
+      - ./www:/var/www/html
+
+  app:
+    image: my-app:latest
+    restart: always
+    depends_on:
+      - web
+    volumes:
+      - ./app:/var/www/html
+
+  database:
+    image: mysql:latest
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: my-password
+    volumes:
+      - ./database:/var/lib/mysql
+
+networks:
+  default:
+    name: my-network
+
+version: "3.9"
